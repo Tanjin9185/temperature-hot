@@ -22,19 +22,46 @@
     <div class="container">
         <form class="col-md-6 m-auto py-5">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <input id="searchCity" type="text" class="form-control" placeholder="Enter a location for Weather ...">
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-danger">Search</button>
+                    <button id="search" type="button" class="btn btn-danger">Search</button>
                 </div>
             </div>
         </form>
         <div class="weather-status text-white text-center">
             <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
-            <h1>Dhaka</h1>
-            <h3><span>38.06</span>&deg;C</h3>
-            <h1 class="lead">Clouds</h1>
+            <h1 id="nameOfCity"></h1>
+            
+            <h3><span id="temperature">00.00</span>&deg;C</h3>
+            <h1 id="description" class="lead"></h1>
+            <h1 id="sunrise" class="lead"></h1>
         </div>
     </div>
+
+
+    <script>
+        document.getElementById('search').addEventListener('click', function(){
+            weather();
+            document.getElementById('searchCity').value = '';
+            // const cityName = document.getElementById('searchCity').value;
+            // fetch('https://api.openweathermap.org/data/2.5/weather?q='+cityName+' &appid=1349f7a7dd4d597a53b60949a31ce216')
+            // .then(response => response.json())
+            // .then(data => console.log(data))
+        })
+        
+        function weather() {
+            const city = document.getElementById('searchCity').value;
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=1349f7a7dd4d597a53b60949a31ce216`)
+                .then((response) => response.json())
+                .then((data) => {
+                    document.getElementById('temperature').innerText = data.main.temp;
+                    document.getElementById('nameOfCity').innerText = data.name;
+                    document.getElementById('description').innerText = data.weather[0].description;
+                    document.getElementById('sunrise').innerText = data.sys.sunrise
+                    console.log(data)
+                });
+        }
+    </script>
 
 </body>
 
