@@ -31,7 +31,7 @@
         <div class="weather-status text-white text-center">
             <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
             <h1 id="nameOfCity"></h1>
-            
+
             <h3><span id="temperature">00.00</span>&deg;C</h3>
             <h1 id="description" class="lead"></h1>
             <h1 id="sunrise" class="lead"></h1>
@@ -40,7 +40,7 @@
 
 
     <script>
-        document.getElementById('search').addEventListener('click', function(){
+        document.getElementById('search').addEventListener('click', function () {
             weather();
             document.getElementById('searchCity').value = '';
             // const cityName = document.getElementById('searchCity').value;
@@ -48,7 +48,7 @@
             // .then(response => response.json())
             // .then(data => console.log(data))
         })
-        
+
         function weather() {
             const city = document.getElementById('searchCity').value;
             fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=1349f7a7dd4d597a53b60949a31ce216`)
@@ -57,7 +57,10 @@
                     document.getElementById('temperature').innerText = data.main.temp;
                     document.getElementById('nameOfCity').innerText = data.name;
                     document.getElementById('description').innerText = data.weather[0].description;
-                    document.getElementById('sunrise').innerText = data.sys.sunrise
+                    let unix = data.sys.sunrise;
+                    let date = new Date(unix * 1000);
+                    document.getElementById('sunrise').innerText = date;
+                    
                     console.log(data)
                 });
         }
